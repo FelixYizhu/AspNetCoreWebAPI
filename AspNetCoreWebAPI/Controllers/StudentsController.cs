@@ -8,18 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreWebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
+        // Create a list of students
         List<Student> _oStudents = new List<Student>()
         {
-            new Student(){Id=1, Name="Felix", Roll=1001},
-            new Student(){Id=2, Name="Eric", Roll=1002},
-            new Student(){Id=3, Name="Tom", Roll=1003},
-            new Student(){Id=4, Name="Peter", Roll=1004},
-            new Student(){Id=5, Name="Jack", Roll=1005}
+            new Student(){Id=1, Name="Felix", Roll=10001},
+            new Student(){Id=2, Name="Bob", Roll=10002},
+            new Student(){Id=3, Name="Joah", Roll=10003},
+            new Student(){Id=4, Name="Joe", Roll=10004},
+            new Student(){Id=5, Name="Lucy", Roll=10005}
         };
+
         
         //Get all students
         [HttpGet]
@@ -27,32 +29,33 @@ namespace AspNetCoreWebAPI.Controllers
         {
             if (_oStudents.Count == 0)
             {
-                return NotFound("No List Found");
+                return NotFound("No List found");
             }
             return Ok(_oStudents);
         }
-
         // Get student by Id
         [HttpGet("GetStudent")]
         public IActionResult Get(int id)
         {
-            var _oStudent = _oStudents.SingleOrDefault(x => x.Id == id);
+
+            var _oStudent = _oStudents.SingleOrDefault(x =>x.Id== id);
             if (_oStudent == null)
             {
-                return NotFound("No Student Found");
+                return NotFound("Student whose Id is "+id +" not found");
             }
             return Ok(_oStudent);
 
         }
 
-        //Update one student
+        //Add one student
         [HttpPost]
         public IActionResult Save(Student _oStudent)
         {
+
             _oStudents.Add(_oStudent);
             if (_oStudents.Count == 0)
             {
-                return NotFound("No List found");
+                return NotFound("No List Found");
             }
             return Ok(_oStudents);
         }
@@ -61,10 +64,11 @@ namespace AspNetCoreWebAPI.Controllers
         [HttpDelete]
         public IActionResult Deletetudent(int id)
         {
-            var _oStudent = _oStudents.SingleOrDefault(x => x.Id == id);
-            if (_oStudent == null)
+
+            var _oStudent = _oStudents.SingleOrDefault(x =>x.Id== id);
+            if(_oStudent==null)
             {
-                return NotFound("No Student whose id is " + id +" Found");
+                return NotFound("student whoese Id is "+ id +" noyt found");
             }
             _oStudents.Remove(_oStudent);
             if (_oStudents.Count == 0)
